@@ -2,12 +2,12 @@
 	"port": 8001,
 	"appName": "user-service",
 	"appEnv": "local",
-	"signatureKey": "",
+	"signatureKey": "a1b2c3d4e5f67890abcdef1234567890abcdef1234567890abcdef1234567890",
 	"database": {
 		"host": "localhost",
 		"port": 5432,
-		"name": "",
-		"username": "",
+		"name": "user_service",
+		"username": "root",
 		"password": "",
 		"maxOpenConnection": 10,
 		"maxLifetimeConnection": 10,
@@ -16,6 +16,6 @@
 	},
 	"rateLimiterMaxRequest": 1000,
 	"rateLimiterTimeSecond": 60,
-	"jwtSecretKey": "",
+	"jwtSecretKey": "3b4f5e6a7d8c9e102030405060708090a0b0c0d0e0f10111213141516171819",
 	"jwtExpirationTime": 1440
 }
