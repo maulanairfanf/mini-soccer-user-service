@@ -55,10 +55,10 @@ func ErrValidationResponse(err error) (validationResponse []ValidationResponse) 
 			}
 		}
 	}
-	return validationResponse 
+	return validationResponse
 }
 
-func WrapError (err error) error {
-	logrus.Error("error: %v", err)
+func WrapError(err error) error {
+	logrus.Errorf("error: %v", err)
 	return err
 }
