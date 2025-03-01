@@ -1,13 +1,13 @@
-package error 
+package error
 
 import "errors"
 
-var {
-	ErrorUserNotFound = errors.New(text: "user not found")
-	ErrorPasswordIncorrect  = errors.New(text: "password is incorrect")
-	ErrorUsernameExist = errors.New(text: "username already exist")
-	ErrorPasswordDoesNotMatch = errors.New(text: "password does not match")
-}
+var (
+	ErrorUserNotFound = errors.New( "user not found")
+	ErrorPasswordIncorrect  = errors.New( "password is incorrect")
+	ErrorUsernameExist = errors.New( "username already exist")
+	ErrorPasswordDoesNotMatch = errors.New( "password does not match")
+)
 
 var UserErrors = []error {
 	ErrorUserNotFound,
