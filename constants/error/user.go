@@ -3,15 +3,16 @@ package error
 import "errors"
 
 var (
-	ErrorUserNotFound         = errors.New("user not found")
-	ErrorPasswordIncorrect    = errors.New("password is incorrect")
-	ErrorUsernameExist        = errors.New("username already exist")
-	ErrorPasswordDoesNotMatch = errors.New("password does not match")
+	ErrUserNotFound         = errors.New("user not found")
+	ErrPasswordInCorrect    = errors.New("password incorrect")
+	ErrUsernameExist        = errors.New("username already exist")
+	ErrEmailExist           = errors.New("email already exist")
+	ErrPasswordDoesNotMatch = errors.New("password does not match")
 )
 
 var UserErrors = []error{
-	ErrorUserNotFound,
-	ErrorPasswordIncorrect,
-	ErrorUsernameExist,
-	ErrorPasswordDoesNotMatch,
+	ErrUserNotFound,
+	ErrPasswordInCorrect,
+	ErrUsernameExist,
+	ErrPasswordDoesNotMatch,
 }
