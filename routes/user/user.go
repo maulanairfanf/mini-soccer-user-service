@@ -1,30 +1,30 @@
 package routes
 
-// import (
-// 	"user-service/controllers"
-// 	"user-service/middlewares"
+import (
+	"user-service/controllers"
+	"user-service/middlewares"
 
-// 	"github.com/gin-gonic/gin"
-// )
+	"github.com/gin-gonic/gin"
+)
 
-// type UserRoute struct {
-// 	controller controllers.IControllerRegistry
-// 	group      *gin.RouterGroup
-// }
+type UserRoute struct {
+	controller controllers.IControllerRegistry
+	group      *gin.RouterGroup
+}
 
-// type IUserRoute interface {
-// 	Run()
-// }
+type IUserRoute interface {
+	Run()
+}
 
-// func NewUserRoute(controller controllers.IControllerRegistry, group *gin.RouterGroup) IUserRoute {
-// 	return &UserRoute{controller: controller, group: group}
-// }
+func NewUserRoute(controller controllers.IControllerRegistry, group *gin.RouterGroup) IUserRoute {
+	return &UserRoute{controller: controller, group: group}
+}
 
-// func (u *UserRoute) Run() {
-// 	group := u.group.Group("/auth")
-// 	group.GET("/user", middlewares.Authenticate(), u.controller.GetUserController().GetUserLogin)
-// 	group.GET("/:uuid", middlewares.Authenticate(), u.controller.GetUserController().GetUserByUUID)
-// 	group.POST("/login", u.controller.GetUserController().Login)
-// 	group.POST("/register", u.controller.GetUserController().Register)
-// 	group.PUT("/:uuid", middlewares.Authenticate(), u.controller.GetUserController().Update)
-// }
+func (u *UserRoute) Run() {
+	group := u.group.Group("/auth")
+	group.GET("/user", middlewares.Authenticate(), u.controller.GetUserController().GetUserLogin)
+	group.GET("/:uuid", middlewares.Authenticate(), u.controller.GetUserController().GetUserByUUID)
+	group.POST("/login", u.controller.GetUserController().Login)
+	group.POST("/register", u.controller.GetUserController().Register)
+	group.PUT("/:uuid", middlewares.Authenticate(), u.controller.GetUserController().Update)
+}

@@ -1,29 +1,29 @@
 package routes
 
-// import (
-// 	"user-service/controllers"
-// 	routes "user-service/routes/user"
+import (
+	"user-service/controllers"
+	routes "user-service/routes/user"
 
-// 	"github.com/gin-gonic/gin"
-// )
+	"github.com/gin-gonic/gin"
+)
 
-// type Registry struct {
-// 	controller controllers.IControllerRegistry
-// 	group      *gin.RouterGroup
-// }
+type Registry struct {
+	controller controllers.IControllerRegistry
+	group      *gin.RouterGroup
+}
 
-// type IRouteRegister interface {
-// 	Serve()
-// }
+type IRouteRegister interface {
+	Serve()
+}
 
-// func NewRouteRegistry(controller controllers.IControllerRegistry, group *gin.RouterGroup) IRouteRegister {
-// 	return &Registry{controller: controller, group: group}
-// }
+func NewRouteRegistry(controller controllers.IControllerRegistry, group *gin.RouterGroup) IRouteRegister {
+	return &Registry{controller: controller, group: group}
+}
 
-// func (r *Registry) Serve() {
-// 	r.userRoute().Run()
-// }
+func (r *Registry) Serve() {
+	r.userRoute().Run()
+}
 
-// func (r *Registry) userRoute() routes.IUserRoute {
-// 	return routes.NewUserRoute(r.controller, r.group)
-// }
+func (r *Registry) userRoute() routes.IUserRoute {
+	return routes.NewUserRoute(r.controller, r.group)
+}
