@@ -5,26 +5,22 @@ import (
 
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 func RunRoleSeeder(db *gorm.DB) {
 	roles := []models.Role{
-		{
-			Code: "ADMIN",
-			Name: "Administrator",
-		}, {
-			Code: "CUSTOMER",
-			Name: "Customer",
-		},
+		{Code: "ADMIN", Name: "Administrator"},
+		{Code: "CUSTOMER", Name: "Customer"},
 	}
 
 	for _, role := range roles {
-		err := db.FirstOrCreate(&role, models.Role{Code: role.Code}).Error
+		err := db.Clauses(clause.OnConflict{DoNothing: true}).Create(&role).Error
 
 		if err != nil {
-			logrus.Error("failed to seed rolel: %v", err)
-			panic(err)
+			logrus.Errorf("Failed to seed role %s: %v", role.Code, err)
+		} else {
+			logrus.Infof("Role %s successfully seeded or already exists", role.Code)
 		}
-		logrus.Infof("role %s successfully seeded", role.Code)
 	}
 }

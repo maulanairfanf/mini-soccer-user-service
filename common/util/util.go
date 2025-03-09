@@ -7,12 +7,13 @@ import (
 
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
+	_ "github.com/spf13/viper/remote"
 )
 
 func BindFromJSON(dest any, filename, path string) error {
 	v := viper.New()
 
-	v.SetConfigFile("json")
+	v.SetConfigType("json")
 	v.AddConfigPath(path)
 	v.SetConfigName(filename)
 
@@ -34,7 +35,6 @@ func SetEnvFromConsulKV(v *viper.Viper) error {
 	env := make(map[string]any)
 
 	err := v.Unmarshal(&env)
-
 	if err != nil {
 		logrus.Errorf("failed to unmarshal: %v", err)
 		return err
@@ -42,26 +42,25 @@ func SetEnvFromConsulKV(v *viper.Viper) error {
 
 	for k, v := range env {
 		var (
-			valof = reflect.ValueOf(v)
+			valOf = reflect.ValueOf(v)
 			val   string
 		)
 
-		switch valof.Kind() {
+		switch valOf.Kind() {
 		case reflect.String:
-			val = valof.String()
+			val = valOf.String()
 		case reflect.Int:
-			val = strconv.Itoa(int(valof.Int()))
+			val = strconv.Itoa(int(valOf.Int()))
 		case reflect.Uint:
-			val = strconv.Itoa(int(valof.Uint()))
+			val = strconv.Itoa(int(valOf.Uint()))
 		case reflect.Float32:
-			val = strconv.Itoa(int(valof.Float()))
+			val = strconv.Itoa(int(valOf.Float()))
 		case reflect.Float64:
-			val = strconv.Itoa(int(valof.Float()))
+			val = strconv.Itoa(int(valOf.Float()))
 		case reflect.Bool:
-			val = strconv.FormatBool(valof.Bool())
-		default:
-			panic("unsupported type")
+			val = strconv.FormatBool(valOf.Bool())
 		}
+
 		err = os.Setenv(k, val)
 		if err != nil {
 			logrus.Errorf("failed to set env: %v", err)
@@ -74,7 +73,6 @@ func SetEnvFromConsulKV(v *viper.Viper) error {
 
 func BindFromConsul(dest any, endPoint, path string) error {
 	v := viper.New()
-
 	v.SetConfigType("json")
 	err := v.AddRemoteProvider("consul", endPoint, path)
 	if err != nil {

@@ -118,18 +118,21 @@ func Authenticate() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var err error
 		token := c.GetHeader(constants.Authorization)
+		logrus.Errorf("token: %v", token)
 		if token == "" {
 			responseUnauthorized(c, errConstant.ErrUnauthorized.Error())
 			return
 		}
 
 		err = validateBearerToken(c, token)
+		logrus.Errorf("validatebearertoken err: %v", err)
 		if err != nil {
 			responseUnauthorized(c, err.Error())
 			return
 		}
 
 		err = validateAPIKey(c)
+		logrus.Errorf("validateAPIKey err: %v", err)
 		if err != nil {
 			responseUnauthorized(c, err.Error())
 			return
