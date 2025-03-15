@@ -8,32 +8,24 @@ import (
 	"github.com/sirupsen/logrus"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
-	"gorm.io/gorm/clause"
 )
 
 func RunUserSeeder(db *gorm.DB) {
-	// Generate hashed password securely
-	password, err := bcrypt.GenerateFromPassword([]byte("admin123"), bcrypt.DefaultCost)
-	if err != nil {
-		logrus.Fatalf("Failed to hash password: %v", err)
-		return
-	}
-
+	password, _ := bcrypt.GenerateFromPassword([]byte("admin123"), bcrypt.DefaultCost)
 	user := models.User{
 		UUID:        uuid.New(),
 		Name:        "Administrator",
 		Username:    "admin",
 		Password:    string(password),
-		PhoneNumber: "08893789676",
-		Email:       "admin@mail.com",
+		PhoneNumber: "085712345678",
+		Email:       "admin@gmail.com",
 		RoleID:      constants.Admin,
 	}
 
-	// Use OnConflict to prevent duplicate entries efficiently
-	err = db.Clauses(clause.OnConflict{DoNothing: true}).Create(&user).Error
+	err := db.FirstOrCreate(&user, models.User{Username: user.Username}).Error
 	if err != nil {
-		logrus.Errorf("Failed to seed user %s: %v", user.Username, err)
-	} else {
-		logrus.Infof("User %s successfully seeded or already exists", user.Username)
+		logrus.Errorf("failed to seed user: %v", err)
+		panic(err)
 	}
+	logrus.Infof("user %s successfully seeded", user.Username)
 }

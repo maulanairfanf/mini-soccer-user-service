@@ -22,8 +22,8 @@ func InitDatabase() (*gorm.DB, error) {
 	uri := fmt.Sprintf("postgresql://%s:%s@%s:%d/%s?sslmode=disable",
 		config.Database.Username,
 		encodedPassword,
-		config.Database.Host,
-		config.Database.Port,
+		config.Database.Host, // if use local change to localhost
+		config.Database.Port, // if use local change to 5433
 		config.Database.Name,
 	)
 
