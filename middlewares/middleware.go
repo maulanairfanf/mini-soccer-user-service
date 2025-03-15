@@ -73,10 +73,15 @@ func validateAPIKey(c *gin.Context) error {
 	signatureKey := config.Config.SignatureKey
 
 	validateKey := fmt.Sprintf("%s:%s:%s", serviceName, signatureKey, requestAt)
+	logrus.Infof("user validateKey: %v", validateKey)
 	hash := sha256.New()
 	hash.Write([]byte(validateKey))
 	resultHash := hex.EncodeToString(hash.Sum(nil))
-
+	logrus.Infof("user requestAt: %v", requestAt)
+	logrus.Infof("user serviceName: %v", serviceName)
+	logrus.Infof("user signatureKey: %v", signatureKey)
+	logrus.Infof("user apiKey: %v", apiKey)
+	logrus.Infof("user resultHash: %v", resultHash)
 	if apiKey != resultHash {
 		return errConstant.ErrUnauthorized
 	}
@@ -117,22 +122,23 @@ func validateBearerToken(c *gin.Context, token string) error {
 func Authenticate() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var err error
+		// logrus.Infof("header: %v", c.Request.Header)
 		token := c.GetHeader(constants.Authorization)
-		logrus.Errorf("token: %v", token)
+		// logrus.Infof("token: %v", token)
 		if token == "" {
 			responseUnauthorized(c, errConstant.ErrUnauthorized.Error())
 			return
 		}
 
 		err = validateBearerToken(c, token)
-		logrus.Errorf("validatebearertoken err: %v", err)
+		logrus.Infof("validatebearertoken err: %v", err)
 		if err != nil {
 			responseUnauthorized(c, err.Error())
 			return
 		}
 
 		err = validateAPIKey(c)
-		logrus.Errorf("validateAPIKey err: %v", err)
+		logrus.Infof("validateAPIKey err: %v", err)
 		if err != nil {
 			responseUnauthorized(c, err.Error())
 			return
